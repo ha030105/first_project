@@ -107,16 +107,46 @@
     return sessions.filter(session => localDateKey(new Date(session.completedAt)) === today);
   }
 
+  function focusMinutesBetween(start, end) {
+    const startTime = start.getTime();
+    const endTime = end.getTime();
+    return sessions
+      .filter(session => {
+        const completedAt = new Date(session.completedAt).getTime();
+        return completedAt >= startTime && completedAt < endTime;
+      })
+      .reduce((total, session) => total + Number(session.minutes), 0);
+  }
+
+  function formatFocusMinutes(minutes) {
+    const wholeMinutes = Math.round(minutes);
+    if (wholeMinutes >= 60) {
+      const hours = Math.floor(wholeMinutes / 60);
+      const remainingMinutes = wholeMinutes % 60;
+      return `${hours}h${remainingMinutes ? ` ${remainingMinutes}m` : ''}`;
+    }
+    return `${wholeMinutes}m`;
+  }
+
   function renderStats() {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const startOfTomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const daysSinceMonday = (now.getDay() + 6) % 7;
+    const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - daysSinceMonday);
+    const startOfNextWeek = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate() + 7);
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     const completedToday = todaySessions();
-    const totalMinutes = completedToday.reduce((total, session) => total + Number(session.minutes), 0);
-    $('#sessions-today').textContent = String(completedToday.length);
-    $('#minutes-today').textContent = String(totalMinutes);
+    $('#minutes-today').textContent = formatFocusMinutes(focusMinutesBetween(startOfDay, startOfTomorrow));
+    $('#minutes-week').textContent = formatFocusMinutes(focusMinutesBetween(startOfWeek, startOfNextWeek));
+    $('#minutes-month').textContent = formatFocusMinutes(focusMinutesBetween(startOfMonth, startOfNextMonth));
     $('#history-count').textContent = `${completedToday.length} TODAY`;
     $('#daily-progress').style.width = `${Math.min(100, completedToday.length / DAILY_GOAL * 100)}%`;
-    $('#daily-caption').textContent = completedToday.length >= DAILY_GOAL
+    const goalMessage = completedToday.length >= DAILY_GOAL
       ? 'Daily intention met. Lovely work.'
       : `${Math.max(0, DAILY_GOAL - completedToday.length)} more ${DAILY_GOAL - completedToday.length === 1 ? 'session' : 'sessions'} to your daily intention.`;
+    $('#daily-caption').textContent = `${completedToday.length} ${completedToday.length === 1 ? 'pomodoro' : 'pomodoros'} today · ${goalMessage}`;
     renderHistory();
   }
 

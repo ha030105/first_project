@@ -83,13 +83,13 @@
 				<div class="right-column">
 					<section class="stats-panel panel" aria-labelledby="stats-heading">
 						<div class="panel-heading compact-heading">
-							<div><p class="eyebrow">A LITTLE PROGRESS ADDS UP</p><h2 id="stats-heading">Today's focus</h2></div>
+							<div><p class="eyebrow">A LITTLE PROGRESS ADDS UP</p><h2 id="stats-heading">Deep work totals</h2></div>
 							<span class="stats-spark" aria-hidden="true">✳</span>
 						</div>
 						<div class="stats-grid">
-							<div class="stat-item"><span class="stat-number" id="sessions-today">0</span><span class="stat-label">pomodoros</span></div>
-							<div class="stat-divider" aria-hidden="true"></div>
-							<div class="stat-item"><span class="stat-number" id="minutes-today">0</span><span class="stat-label">focused minutes</span></div>
+							<div class="stat-item"><span class="stat-number" id="minutes-today">0m</span><span class="stat-label">Today</span></div>
+							<div class="stat-item"><span class="stat-number" id="minutes-week">0m</span><span class="stat-label">This week</span></div>
+							<div class="stat-item"><span class="stat-number" id="minutes-month">0m</span><span class="stat-label">This month</span></div>
 						</div>
 						<div class="daily-track" aria-label="Daily session progress"><span id="daily-progress"></span></div>
 						<p class="daily-caption" id="daily-caption">Your first focus session is waiting.</p>
@@ -159,7 +159,7 @@
 						<input id="task-input" type="text" maxlength="120" placeholder="What would you like to work on?" autocomplete="off" required>
 						<label class="visually-hidden" for="task-target">Target Pomodoros</label>
 						<div class="target-input"><input id="task-target" type="number" min="1" max="20" value="1" inputmode="numeric"><span>🍅</span></div>
-						<button class="button button-add" type="submit" aria-label="Add task">＋ <span>Add task</span></button>
+						<button class="button button-add" type="submit" aria-label="Add document">＋ <span>Add document</span></button>
 					</form>
 					<ul class="task-list" id="task-list" aria-live="polite"></ul>
 					<p class="empty-tasks" id="empty-tasks">A fresh page. Add one small thing to begin.</p>

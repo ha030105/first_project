@@ -119,11 +119,10 @@ body[data-mode="shortBreak"] .ring-progress, body[data-mode="longBreak"] .ring-p
 .stats-panel { padding: 21px 23px 18px; }
 .compact-heading h2 { font-size: 15px; }
 .stats-spark { color: var(--coral); font-size: 20px; }
-.stats-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; margin: 18px 0 13px; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; margin: 18px 0 13px; }
 .stat-item { display: grid; justify-items: center; gap: 2px; }
-.stat-number { font: 700 31px/1 'Manrope', sans-serif; font-variant-numeric: tabular-nums; }
+.stat-number { font: 700 25px/1 'Manrope', sans-serif; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .stat-label { color: var(--muted); font-size: 10px; }
-.stat-divider { width: 1px; height: 34px; background: var(--line); }
 .daily-track { height: 4px; overflow: hidden; border-radius: 5px; background: var(--range-track); }
 .daily-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--green); transition: width .35s ease; }
 .daily-caption { margin: 8px 0 0; color: var(--muted); font-size: 9px; text-align: center; }
