@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#f2f3ed">
+	<meta name="description" content="A calm, focused study space with a Pomodoro timer, task list, and ambient soundboard.">
+	<title>FocusSpace - Smart Study Hub</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="script.js" defer></script>
+</head>
+<body>
+	<div class="app-shell">
+		<header class="topbar">
+			<a class="brand" href="#top" aria-label="FocusSpace home">
+				<span class="brand-mark" aria-hidden="true">f.</span>
+				<span class="brand-copy"><strong>FocusSpace</strong><small>SMART STUDY HUB</small></span>
+			</a>
+			<div class="header-tools">
+				<span class="date-label" id="today-label"></span>
+				<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme" title="Switch color theme">
+					<span class="theme-icon" aria-hidden="true">☾</span>
+					<span class="theme-toggle-track"><span class="theme-toggle-thumb"></span></span>
+				</button>
+			</div>
+		</header>
+
+		<main id="top">
+			<section class="welcome-row" aria-labelledby="welcome-title">
+				<div>
+					<p class="eyebrow">YOUR LITTLE CORNER OF CALM</p>
+					<h1 id="welcome-title">Make room for <span>deep work.</span></h1>
+					<p class="welcome-note">Một nhịp tập trung nhỏ, một bước tiến lớn.</p>
+				</div>
+				<div class="now-chip"><span class="live-dot" aria-hidden="true"></span><span id="session-label">Ready when you are</span></div>
+			</section>
+
+			<div class="dashboard-grid">
+				<section class="timer-panel panel" aria-labelledby="timer-heading">
+					<div class="panel-heading timer-heading-row">
+						<div>
+							<p class="eyebrow">TIME WELL SPENT</p>
+							<h2 id="timer-heading">Focus timer</h2>
+						</div>
+						<span class="cycle-count" id="cycle-count">ROUND 01</span>
+					</div>
+
+					<div class="mode-tabs" role="tablist" aria-label="Timer mode">
+						<button class="mode-tab is-active" type="button" role="tab" aria-selected="true" data-mode="focus">Focus</button>
+						<button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="shortBreak">Short break</button>
+						<button class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="longBreak">Long break</button>
+					</div>
+
+					<div class="timer-face">
+						<svg class="timer-ring" viewBox="0 0 260 260" aria-hidden="true">
+							<circle class="ring-track" cx="130" cy="130" r="116"></circle>
+							<circle class="ring-progress" id="ring-progress" cx="130" cy="130" r="116"></circle>
+						</svg>
+						<div class="timer-readout">
+							<span class="timer-caption" id="timer-caption">TIME TO FOCUS</span>
+							<span class="timer-time" id="timer-display" role="timer" aria-live="off">25:00</span>
+							<span class="timer-subtitle" id="timer-subtitle">One thing at a time.</span>
+						</div>
+					</div>
+
+					<div class="timer-controls">
+						<button class="button button-primary" id="start-button" type="button"><span aria-hidden="true">▶</span> Start focus</button>
+						<button class="button button-secondary" id="reset-button" type="button" aria-label="Reset timer">↺ <span>Reset</span></button>
+						<button class="button button-icon" id="skip-button" type="button" aria-label="Skip to next timer" title="Skip to next timer">⇥</button>
+					</div>
+
+					<details class="timer-settings">
+						<summary><span aria-hidden="true">⚙</span> Timer settings</summary>
+						<div class="settings-fields">
+							<label>Focus <span class="input-with-unit"><input id="focus-minutes" type="number" min="1" max="180" inputmode="numeric"><span>min</span></span></label>
+							<label>Short break <span class="input-with-unit"><input id="shortBreak-minutes" type="number" min="1" max="60" inputmode="numeric"><span>min</span></span></label>
+							<label>Long break <span class="input-with-unit"><input id="longBreak-minutes" type="number" min="1" max="90" inputmode="numeric"><span>min</span></span></label>
+						</div>
+						<p class="settings-hint">Changes apply immediately and are saved on this device.</p>
+					</details>
+				</section>
+
+				<div class="right-column">
+					<section class="stats-panel panel" aria-labelledby="stats-heading">
+						<div class="panel-heading compact-heading">
+							<div><p class="eyebrow">A LITTLE PROGRESS ADDS UP</p><h2 id="stats-heading">Today's focus</h2></div>
+							<span class="stats-spark" aria-hidden="true">✳</span>
+						</div>
+						<div class="stats-grid">
+							<div class="stat-item"><span class="stat-number" id="sessions-today">0</span><span class="stat-label">pomodoros</span></div>
+							<div class="stat-divider" aria-hidden="true"></div>
+							<div class="stat-item"><span class="stat-number" id="minutes-today">0</span><span class="stat-label">focused minutes</span></div>
+						</div>
+						<div class="daily-track" aria-label="Daily session progress"><span id="daily-progress"></span></div>
+						<p class="daily-caption" id="daily-caption">Your first focus session is waiting.</p>
+					</section>
+
+					<section class="sound-panel panel" aria-labelledby="sound-heading">
+						<div class="panel-heading compact-heading">
+							<div><p class="eyebrow">SET THE SCENE</p><h2 id="sound-heading">Ambient sounds</h2></div>
+							<div class="sound-header-actions">
+								<button class="sound-add-button" id="add-song-button" type="button" title="Choose audio files from your computer">♫ Add song</button>
+								<input class="visually-hidden" id="local-song-input" type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.aac,.flac,.opus,.webm" multiple aria-label="Choose audio files from your computer">
+								<button class="sound-add-button" id="add-sound-button" type="button">＋ Add sound</button>
+							</div>
+						</div>
+						<div class="sound-list">
+							<div class="sound-row sound-row-default" data-sound="rain">
+								<span class="sound-emoji" aria-hidden="true">☔</span><span class="sound-name">Mưa rơi<small>Soft rainfall</small></span>
+								<button class="sound-toggle" type="button" aria-label="Play rain ambience" aria-pressed="false">▶</button>
+								<label class="visually-hidden" for="volume-rain">Rain volume</label><input id="volume-rain" class="volume-slider" type="range" min="0" max="100" value="35" aria-label="Rain volume">
+								<button class="sound-remove" type="button" aria-label="Remove rain sound" title="Remove rain sound">×</button>
+							</div>
+							<div class="sound-row sound-row-default" data-sound="cafe">
+								<span class="sound-emoji" aria-hidden="true">☕</span><span class="sound-name">Quán cà phê<small>Café hum</small></span>
+								<button class="sound-toggle" type="button" aria-label="Play café ambience" aria-pressed="false">▶</button>
+								<label class="visually-hidden" for="volume-cafe">Café volume</label><input id="volume-cafe" class="volume-slider" type="range" min="0" max="100" value="25" aria-label="Café volume">
+								<button class="sound-remove" type="button" aria-label="Remove café sound" title="Remove café sound">×</button>
+							</div>
+							<div class="sound-row sound-row-default" data-sound="forest">
+								<span class="sound-emoji" aria-hidden="true">🌿</span><span class="sound-name">Rừng cây<small>Forest birds</small></span>
+								<button class="sound-toggle" type="button" aria-label="Play forest ambience" aria-pressed="false">▶</button>
+								<label class="visually-hidden" for="volume-forest">Forest volume</label><input id="volume-forest" class="volume-slider" type="range" min="0" max="100" value="30" aria-label="Forest volume">
+								<button class="sound-remove" type="button" aria-label="Remove forest sound" title="Remove forest sound">×</button>
+							</div>
+							<div class="sound-row sound-row-default" data-sound="waves">
+								<span class="sound-emoji" aria-hidden="true">🌊</span><span class="sound-name">Sóng biển<small>Ocean waves</small></span>
+								<button class="sound-toggle" type="button" aria-label="Play ocean ambience" aria-pressed="false">▶</button>
+								<label class="visually-hidden" for="volume-waves">Ocean volume</label><input id="volume-waves" class="volume-slider" type="range" min="0" max="100" value="30" aria-label="Ocean volume">
+								<button class="sound-remove" type="button" aria-label="Remove ocean sound" title="Remove ocean sound">×</button>
+							</div>
+						</div>
+						<button class="restore-sounds-button" id="restore-default-sounds" type="button" hidden>↺ Restore default sounds</button>
+						<dialog class="sound-dialog" id="sound-dialog" aria-labelledby="sound-dialog-title">
+							<form id="add-sound-form">
+								<div class="sound-dialog-heading">
+									<div><p class="eyebrow">A NEW LITTLE ATMOSPHERE</p><h3 id="sound-dialog-title">Add a sound</h3></div>
+									<button class="sound-dialog-close" id="close-sound-dialog" type="button" aria-label="Close">×</button>
+								</div>
+								<label class="sound-select-label" for="sound-preset">Choose an ambience</label>
+								<select id="sound-preset" required></select>
+								<p class="sound-dialog-note" id="sound-dialog-note">Each sound is generated in your browser. No audio downloads required.</p>
+								<div class="sound-dialog-actions">
+									<button class="button button-secondary" id="cancel-add-sound" type="button">Cancel</button>
+									<button class="button button-primary" id="confirm-add-sound" type="submit">＋ Add sound</button>
+								</div>
+							</form>
+						</dialog>
+					</section>
+				</div>
+
+				<section class="tasks-panel panel" aria-labelledby="tasks-heading">
+					<div class="panel-heading tasks-heading-row">
+						<div><p class="eyebrow">CLEAR THE DECK</p><h2 id="tasks-heading">Study list <span class="task-count" id="task-count">0</span></h2></div>
+						<span class="tasks-aside">Small steps count.</span>
+					</div>
+					<form class="task-form" id="task-form">
+						<label class="visually-hidden" for="task-input">New study task</label>
+						<input id="task-input" type="text" maxlength="120" placeholder="What would you like to work on?" autocomplete="off" required>
+						<label class="visually-hidden" for="task-target">Target Pomodoros</label>
+						<div class="target-input"><input id="task-target" type="number" min="1" max="20" value="1" inputmode="numeric"><span>🍅</span></div>
+						<button class="button button-add" type="submit" aria-label="Add task">＋ <span>Add task</span></button>
+					</form>
+					<ul class="task-list" id="task-list" aria-live="polite"></ul>
+					<p class="empty-tasks" id="empty-tasks">A fresh page. Add one small thing to begin.</p>
+				</section>
+
+				<section class="history-panel panel" aria-labelledby="history-heading">
+					<div class="panel-heading compact-heading">
+						<div><p class="eyebrow">YOUR RECENT RHYTHM</p><h2 id="history-heading">Session history</h2></div>
+						<span class="history-count" id="history-count">0 TODAY</span>
+					</div>
+					<ul class="history-list" id="history-list"></ul>
+					<p class="empty-history" id="empty-history">Completed focus sessions will show up here.</p>
+				</section>
+			</div>
+		</main>
+
+		<footer class="footer-note"><span>FOCUSSPACE</span><span>Take a breath between chapters.</span><span>BUILT FOR YOUR NEXT GOOD HOUR</span></footer>
+		<div class="toast" id="toast" role="status" aria-live="polite"></div>
+	</div>
+</body>
+</html>
